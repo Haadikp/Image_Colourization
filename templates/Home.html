@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImageTone | Color & Grayscale Conversion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container nav-container process-steps">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                ImageTone
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#upload">Try Now</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Transform Your Images with Precision</h1>
+            <p class="subtitle">Instantly convert color photos to elegant black & white or transform monochrome images with vibrant colorization.</p>
+            <a href="#upload" class="btn btn-primary">Start Converting</a>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Powerful Image Conversion Tools</h2>
+                <p>Choose from our professional-grade conversion options to transform your photos instantly</p>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M22 12h-4"></path><path d="M6 12H2"></path><path d="M12 6V2"></path><path d="M12 22v-4"></path></svg>
+                    </div>
+                    <h3>Color to Grayscale</h3>
+                    <p class="feature-description">Convert your vibrant photos into stunning black & white images with customizable contrast and tone mapping.</p>
+                    <img src="/api/placeholder/400/230" alt="Color to Grayscale Example" class="example-image" />
+                    <a href="#upload" class="btn btn-secondary">Try Converting</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </div>
+                    <h3>Colorize Black & White</h3>
+                    <p class="feature-description">Breathe new life into vintage photos with advanced AI-powered colorization technology.</p>
+                    <img src="/api/placeholder/400/230" alt="Black & White to Color Example" class="example-image" />
+                    <a href="#upload" class="btn btn-secondary">Try Colorizing</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>How It Works</h2>
+            <p>Transform your images in just three simple steps</p>
+        </div>
+
+        <div class="process-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Upload Your Image</h3>
+                <p>Upload any JPG, PNG or WEBP file up to 20MB in size to our secure platform.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Choose Conversion</h3>
+                <p>Select between grayscale conversion or colorization based on your needs.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Download Result</h3>
+                <p>Get your beautifully transformed image in seconds, ready to download.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Share & Enjoy</h3>
+                <p>Use your transformed image for projects, social media, or printing.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section id="upload" class="upload-section">
+        <div class="container">
+            <h2>Upload Your Image</h2>
+            <p class="feature-description">Drag and drop your image below or click to browse files</p>
+
+            <div class="upload-area">
+                <div class="upload-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                </div>
+                <p class="upload-text">Drop your image here or click to browse</p>
+                <p class="file-types">Supports JPG, PNG, WEBP (Max 20MB)</p>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary">Convert to Grayscale</button>
+                <button class="btn btn-secondary">Colorize B&W Image</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-column">
+                <div class="footer-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    ImageTone
+                </div>
+                <p class="footer-description">Advanced image processing tools made simple and accessible for everyone.</p>
+            </div>
+
+            <div class="footer-column">
+                <h3 class="footer-heading">Features</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Color to Grayscale</a></li>
+                    <li><a href="#">B&W Colorization</a></li>
+<!--                    <li><a href="#">Batch Processing</a></li>-->
+<!--                    <li><a href="#">API Access</a></li>-->
+                </ul>
+            </div>
+
+<!--            <div class="footer-column">-->
+<!--                <h3 class="footer-heading">Resources</h3>-->
+<!--                <ul class="footer-links">-->
+<!--                    <li><a href="#">Documentation</a></li>-->
+<!--                    <li><a href="#">Tutorials</a></li>-->
+<!--                    <li><a href="#">API Reference</a></li>-->
+<!--                    <li><a href="#">Community</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+
+<!--            <div class="footer-column">-->
+<!--                <h3 class="footer-heading">Company</h3>-->
+<!--                <ul class="footer-links">-->
+<!--                    <li><a href="#">About Us</a></li>-->
+<!--                    <li><a href="#">Careers</a></li>-->
+<!--                    <li><a href="#">Privacy Policy</a></li>-->
+<!--                    <li><a href="#">Terms of Service</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+        </div>
+
+        <div class="container copyright">
+<!--            <p>&copy; 2025 ImageTone. All rights reserved.</p>-->
+        </div>
+    </footer>
+</body>
+</html>

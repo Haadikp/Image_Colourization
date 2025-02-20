@@ -1,0 +1,127 @@
+<!--<!doctype html>-->
+<!--<html lang="en">-->
+<!--  <head>-->
+<!--    &lt;!&ndash; Required meta tags &ndash;&gt;-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+
+<!--    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">-->
+
+<!--    &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+
+<!--    <title>Personal Finance Management System - Register</title>-->
+<!--  </head>-->
+<!--  <body class="login-page">-->
+<!--&lt;!&ndash;  Creating navbar&ndash;&gt;-->
+<!--    <nav class="navbar bg-nav">-->
+<!--        <a href="" class="navbar-brand text-light">Personal Finance Management System - Register</a>-->
+
+<!--    </nav>-->
+
+<!--&lt;!&ndash;  creating a main div  &ndash;&gt;-->
+<!--    <div class="container">-->
+<!--&lt;!&ndash;     creating a row&ndash;&gt;-->
+<!--      <div class="row">-->
+<!--&lt;!&ndash;        dividing above row into two columns 8 and 4 (12 is max grid shape)&ndash;&gt;-->
+<!--        <div class="col-md-8">-->
+<!--&lt;!&ndash;          adding text in first columns&ndash;&gt;-->
+<!--&lt;!&ndash;          <h1 class="text-light display-4 mt-50" style="font-size:80px">Bring the power of Analytics to your life and save money</h1>&ndash;&gt;-->
+<!--        </div>-->
+<!--        <div class="col-md-4">-->
+<!--&lt;!&ndash;          second columns, adding login section in this &ndash;&gt;-->
+<!--            {% for message in get_flashed_messages() %}-->
+<!--         <div class="alert alert-danger alert-dismissible fade show my-1" id="alert" role="alert">-->
+<!--                    {{ message }}-->
+<!--            <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+<!--            <span aria-hidden="true">&times;</span>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--         {% endfor %}-->
+
+
+
+<!--          <div class="login-card">-->
+<!--            <div >-->
+<!--              <form class="form" method="post" action="/registration">-->
+<!--                <label>Name</label><br>-->
+<!--                <input type="text" class="form-control" name="name" placeholder="Enter your full name" required><br>-->
+<!--                <label>Email</label><br>-->
+<!--                <input type="email" class="form-control" name="email" placeholder="Enter your email" required><br>-->
+<!--                <label>Password</label><br>-->
+<!--                <input type="password" class="form-control" name="password" placeholder="Enter your password" required><br><br>-->
+<!--                <input type="submit" class="btn btn-primary btn-block btn-lg" value="Register">-->
+<!--              </form>-->
+<!--&lt;!&ndash;                will route to home page/login on click Login&ndash;&gt;-->
+<!--              <p class="mt-2">Already a member? <a href="/">Login</a></p>-->
+<!--                <p class="mt-2">Any Query? <a href="/contact">Contact Us</a> </p>-->
+
+<!--            </div>-->
+<!--          </div>-->
+
+<!--        </div>-->
+
+
+
+<!--      </div>-->
+
+<!--    </div>-->
+
+<!--<script type="text/javascript">-->
+<!--        setTimeout(function () {-->
+<!--                    // Closing the alert-->
+<!--                    $('#alert').alert('close');-->
+<!--                }, 3000);-->
+<!--    </script>-->
+<!--    &lt;!&ndash; Optional JavaScript &ndash;&gt;-->
+<!--    &lt;!&ndash; jQuery first, then Popper.js, then Bootstrap JS &ndash;&gt;-->
+<!--    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
+<!--  </body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Image Colorization</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="form-title">Create Account</h1>
+
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <form action="/registration" method="POST">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn">Register</button>
+        </form>
+
+        <div class="links">
+            <a href="/">Already have an account? Login</a>
+        </div>
+    </div>
+</body>
+</html>
