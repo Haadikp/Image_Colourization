@@ -419,7 +419,11 @@ def result_file(filename):
     """
     return send_from_directory(app.config['RESULT_FOLDER'], filename)
 
-
+@app.route('/logout')
+def logout():
+    session.clear()  # Clear all session data
+    flash('You have been logged out.', 'info')  # Optional: Display a logout message
+    return redirect('/')  # Redirect to the login page
 
 if __name__ == '__main__':
     app.run(debug=True)
