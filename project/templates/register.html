@@ -1,126 +1,219 @@
-<!--<!doctype html>-->
+<!--&lt;!&ndash;<!doctype html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html lang="en">&ndash;&gt;-->
+<!--&lt;!&ndash;  <head>&ndash;&gt;-->
+<!--&lt;!&ndash;    &lt;!&ndash; Required meta tags &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta charset="utf-8">&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; Bootstrap CSS &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <title>Personal Finance Management System - Register</title>&ndash;&gt;-->
+<!--&lt;!&ndash;  </head>&ndash;&gt;-->
+<!--&lt;!&ndash;  <body class="login-page">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;  Creating navbar&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <nav class="navbar bg-nav">&ndash;&gt;-->
+<!--&lt;!&ndash;        <a href="" class="navbar-brand text-light">Personal Finance Management System - Register</a>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    </nav>&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;  creating a main div  &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="container">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;     creating a row&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="row">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        dividing above row into two columns 8 and 4 (12 is max grid shape)&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="col-md-8">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;          adding text in first columns&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;          <h1 class="text-light display-4 mt-50" style="font-size:80px">Bring the power of Analytics to your life and save money</h1>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="col-md-4">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;          second columns, adding login section in this &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;            {% for message in get_flashed_messages() %}&ndash;&gt;-->
+<!--&lt;!&ndash;         <div class="alert alert-danger alert-dismissible fade show my-1" id="alert" role="alert">&ndash;&gt;-->
+<!--&lt;!&ndash;                    {{ message }}&ndash;&gt;-->
+<!--&lt;!&ndash;            <button type="button" class="close" data-dismiss="alert" aria-label="Close">&ndash;&gt;-->
+<!--&lt;!&ndash;            <span aria-hidden="true">&times;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;         {% endfor %}&ndash;&gt;-->
+
+
+
+<!--&lt;!&ndash;          <div class="login-card">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div >&ndash;&gt;-->
+<!--&lt;!&ndash;              <form class="form" method="post" action="/registration">&ndash;&gt;-->
+<!--&lt;!&ndash;                <label>Name</label><br>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input type="text" class="form-control" name="name" placeholder="Enter your full name" required><br>&ndash;&gt;-->
+<!--&lt;!&ndash;                <label>Email</label><br>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input type="email" class="form-control" name="email" placeholder="Enter your email" required><br>&ndash;&gt;-->
+<!--&lt;!&ndash;                <label>Password</label><br>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input type="password" class="form-control" name="password" placeholder="Enter your password" required><br><br>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input type="submit" class="btn btn-primary btn-block btn-lg" value="Register">&ndash;&gt;-->
+<!--&lt;!&ndash;              </form>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                will route to home page/login on click Login&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;              <p class="mt-2">Already a member? <a href="/">Login</a></p>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p class="mt-2">Any Query? <a href="/contact">Contact Us</a> </p>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+
+
+
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<script type="text/javascript">&ndash;&gt;-->
+<!--&lt;!&ndash;        setTimeout(function () {&ndash;&gt;-->
+<!--&lt;!&ndash;                    // Closing the alert&ndash;&gt;-->
+<!--&lt;!&ndash;                    $('#alert').alert('close');&ndash;&gt;-->
+<!--&lt;!&ndash;                }, 3000);&ndash;&gt;-->
+<!--&lt;!&ndash;    </script>&ndash;&gt;-->
+<!--&lt;!&ndash;    &lt;!&ndash; Optional JavaScript &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    &lt;!&ndash; jQuery first, then Popper.js, then Bootstrap JS &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;  </body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+<!--<!DOCTYPE html>-->
 <!--<html lang="en">-->
-<!--  <head>-->
-<!--    &lt;!&ndash; Required meta tags &ndash;&gt;-->
-<!--    <meta charset="utf-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
-
-<!--    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">-->
-
-<!--    &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-
-<!--    <title>Personal Finance Management System - Register</title>-->
-<!--  </head>-->
-<!--  <body class="login-page">-->
-<!--&lt;!&ndash;  Creating navbar&ndash;&gt;-->
-<!--    <nav class="navbar bg-nav">-->
-<!--        <a href="" class="navbar-brand text-light">Personal Finance Management System - Register</a>-->
-
-<!--    </nav>-->
-
-<!--&lt;!&ndash;  creating a main div  &ndash;&gt;-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Register - Image Colorization</title>-->
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">-->
+<!--</head>-->
+<!--<body>-->
 <!--    <div class="container">-->
-<!--&lt;!&ndash;     creating a row&ndash;&gt;-->
-<!--      <div class="row">-->
-<!--&lt;!&ndash;        dividing above row into two columns 8 and 4 (12 is max grid shape)&ndash;&gt;-->
-<!--        <div class="col-md-8">-->
-<!--&lt;!&ndash;          adding text in first columns&ndash;&gt;-->
-<!--&lt;!&ndash;          <h1 class="text-light display-4 mt-50" style="font-size:80px">Bring the power of Analytics to your life and save money</h1>&ndash;&gt;-->
+<!--        <h1 class="form-title">Create Account</h1>-->
+
+<!--        <div class="flash-messages">-->
+<!--            {% with messages = get_flashed_messages() %}-->
+<!--                {% if messages %}-->
+<!--                    {% for message in messages %}-->
+<!--                        <div class="flash-message">{{ message }}</div>-->
+<!--                    {% endfor %}-->
+<!--                {% endif %}-->
+<!--            {% endwith %}-->
 <!--        </div>-->
-<!--        <div class="col-md-4">-->
-<!--&lt;!&ndash;          second columns, adding login section in this &ndash;&gt;-->
-<!--            {% for message in get_flashed_messages() %}-->
-<!--         <div class="alert alert-danger alert-dismissible fade show my-1" id="alert" role="alert">-->
-<!--                    {{ message }}-->
-<!--            <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
-<!--            <span aria-hidden="true">&times;</span>-->
-<!--            </button>-->
-<!--        </div>-->
-<!--         {% endfor %}-->
 
-
-
-<!--          <div class="login-card">-->
-<!--            <div >-->
-<!--              <form class="form" method="post" action="/registration">-->
-<!--                <label>Name</label><br>-->
-<!--                <input type="text" class="form-control" name="name" placeholder="Enter your full name" required><br>-->
-<!--                <label>Email</label><br>-->
-<!--                <input type="email" class="form-control" name="email" placeholder="Enter your email" required><br>-->
-<!--                <label>Password</label><br>-->
-<!--                <input type="password" class="form-control" name="password" placeholder="Enter your password" required><br><br>-->
-<!--                <input type="submit" class="btn btn-primary btn-block btn-lg" value="Register">-->
-<!--              </form>-->
-<!--&lt;!&ndash;                will route to home page/login on click Login&ndash;&gt;-->
-<!--              <p class="mt-2">Already a member? <a href="/">Login</a></p>-->
-<!--                <p class="mt-2">Any Query? <a href="/contact">Contact Us</a> </p>-->
-
+<!--        <form action="/registration" method="POST">-->
+<!--            <div class="form-group">-->
+<!--                <label for="name">Full Name</label>-->
+<!--                <input type="text" id="name" name="name" required>-->
 <!--            </div>-->
-<!--          </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="email">Email</label>-->
+<!--                <input type="email" id="email" name="email" required>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="password">Password</label>-->
+<!--                <input type="password" id="password" name="password" required>-->
+<!--            </div>-->
+<!--            <button type="submit" class="btn">Register</button>-->
+<!--        </form>-->
 
+<!--        <div class="links">-->
+<!--            <a href="/">Already have an account? Login</a>-->
 <!--        </div>-->
-
-
-
-<!--      </div>-->
-
 <!--    </div>-->
-
-<!--<script type="text/javascript">-->
-<!--        setTimeout(function () {-->
-<!--                    // Closing the alert-->
-<!--                    $('#alert').alert('close');-->
-<!--                }, 3000);-->
-<!--    </script>-->
-<!--    &lt;!&ndash; Optional JavaScript &ndash;&gt;-->
-<!--    &lt;!&ndash; jQuery first, then Popper.js, then Bootstrap JS &ndash;&gt;-->
-<!--    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
-<!--  </body>-->
+<!--</body>-->
 <!--</html>-->
 
+<!-- register.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Image Colorization</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Register | ImageTone</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
 </head>
-<body>
-    <div class="container">
-        <h1 class="form-title">Create Account</h1>
-
-        <div class="flash-messages">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="flash-message">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        </div>
-
-        <form action="/registration" method="POST">
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                    <span>ImageTone</span>
+                </div>
+                <h1>Create Account</h1>
+                <p class="auth-subtitle">Get started with your free account</p>
             </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn">Register</button>
-        </form>
 
-        <div class="links">
-            <a href="/">Already have an account? Login</a>
+            <div class="flash-messages">
+                <!-- Flash messages will be inserted here dynamically -->
+            </div>
+
+            <form class="auth-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <div class="input-group">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-group">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <div class="input-group">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" name="terms" required>
+                        <span>I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="/login">Sign in</a></p>
+            </div>
         </div>
     </div>
 </body>
