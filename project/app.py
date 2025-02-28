@@ -132,70 +132,137 @@ app.config['MAIL_DEBUG'] = True
 mail = Mail(app)
 
 
-# Password reset route using OTP
-@app.route('/reset', methods=['POST'])
+# 🔹 Step 1: Request Password Reset (Checks if email exists)
+@app.route('/reset', methods=['GET', 'POST'])
 def reset():
-    if 'user_id' not in session:
-        email = request.form.get('femail')
-        userdata = execute_query('search', f"SELECT * FROM user_login WHERE email = '{email}'")
-        if userdata:
-            # Generate a 6-digit OTP
-            otp = random.randint(100000, 999999)
+    if request.method == 'GET':
+        return render_template('reset_password.html')
 
-            # Store OTP and email in session for later validation
-            session['reset_email'] = email
-            session['otp'] = otp
+    email = request.form.get('femail')
 
-            # Send OTP via email
-            msg = Message("Password Reset OTP",
-                          sender="noreply@app.com",
-                          recipients=[email])
-            msg.body = f"Your OTP for password reset is: {otp}. This OTP will expire in 10 minutes."
-            mail.send(msg)
+    # Check if email exists in the database
+    userdata = execute_query('search', "SELECT * FROM user_login WHERE email = %s", (email,))
+    print(userdata)
 
-            flash("An OTP has been sent to your email.")
-            return redirect('/verify_otp')  # Redirect to OTP verification page
-        else:
-            flash("Invalid email address!")
-            return redirect('/')
-    else:
-        return redirect('/home')
+    if not userdata or userdata is None or userdata == ():
+        print("yes")
+        flash("Invalid email address! Please enter a registered email.")
+        return redirect('/reset')  # Stay on the reset page
 
+    # Generate OTP
+    otp = random.randint(100000, 999999)
 
-# Route for verifying OTP and resetting password
+    # Store OTP & email in session
+    session['reset_email'] = email
+    session['otp'] = otp
+
+    # Send OTP via email
+    msg = Message("Password Reset OTP", sender=app.config['MAIL_USERNAME'], recipients=[email])
+    msg.body = f"Your OTP for password reset is: {otp}. This OTP will expire in 10 minutes."
+    mail.send(msg)
+
+    flash("An OTP has been sent to your email.")
+    return redirect('/verify_otp')  # Move to OTP verification step
+
+# 🔹 Step 2: OTP Verification (Checks if OTP is correct)
 @app.route('/verify_otp', methods=['GET', 'POST'])
 def verify_otp():
-    if request.method == 'POST':
-        entered_otp = request.form.get('otp')
-        new_password = request.form.get('new_password')
+    if request.method == 'GET':
+        return render_template('verify_otp.html')  # Make sure this page exists
 
-        if 'otp' in session and 'reset_email' in session:
-            if int(entered_otp) == session['otp']:
-                email = session['reset_email']
+    email = session.get('reset_email')
+    entered_otp = request.form.get('otp')
 
-                # Hash the new password before updating
-                hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    # If email is missing in session, restart reset process
+    if not email:
+        flash("Session expired! Please request password reset again.")
+        return redirect('/reset')
 
-                try:
-                    query = "UPDATE user_login SET password = %s WHERE email = %s"
-                    execute_query('insert', query, (hashed_password, email))
+    # Validate if email exists in database (ensuring security)
+    userdata = execute_query('search', "SELECT * FROM user_login WHERE email = %s", (email,))
+    if not userdata:
+        flash("Invalid session! Please enter a valid email.")
+        return redirect('/reset')
 
-                    session.pop('otp', None)
-                    session.pop('reset_email', None)
+    # Check if entered OTP matches the stored one
+    if entered_otp and int(entered_otp) == session.get('otp'):
+        flash("OTP verified! Now enter your new password.")
+        return redirect('/set_new_password')  # Move to password reset step
+    else:
+        flash("Invalid OTP! Please enter the correct OTP.")
+        return redirect('/verify_otp')  # Stay on OTP page
 
-                    flash("Your password has been reset successfully!")
-                    return redirect('/')
-                except:
-                    flash("Something went wrong while resetting the password!")
-                    return redirect('/verify_otp')
-            else:
-                flash('Invalid OTP. Please try again.')
-                return redirect('/verify_otp')
-        else:
-            flash('Session expired or invalid. Please try again.')
-            return redirect('/reset')
+# 🔹 Step 3: Set New Password (Ensures OTP was verified)
+@app.route('/set_new_password', methods=['GET', 'POST'])
+def set_new_password():
+    if request.method == 'GET':
+        return render_template('set_new_password.html')  # Make sure this page exists
 
-    return render_template('verify_otp.html')
+    email = session.get('reset_email')
+    new_password = request.form.get('new_password')
+
+    # If email is missing in session, restart reset process
+    if not email:
+        flash("Session expired! Please request password reset again.")
+        return redirect('/reset')
+
+    # Validate email again before updating password
+    userdata = execute_query('search', "SELECT * FROM user_login WHERE email = %s", (email,))
+    if not userdata:
+        flash("Invalid session! Please enter a valid email.")
+        return redirect('/reset')
+
+    # Hash the new password
+    hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    # Update password in database
+    try:
+        query = "UPDATE user_login SET password = %s WHERE email = %s"
+        execute_query('insert', query, (hashed_password, email))
+
+        # Clear session
+        session.pop('otp', None)
+        session.pop('reset_email', None)
+
+        flash("Your password has been reset successfully!")
+        return redirect('/')  # Redirect to login page
+    except:
+        flash("Something went wrong while resetting the password! Try again.")
+        return redirect('/set_new_password')
+
+# 🔹 Optional: Resend OTP Route
+@app.route('/resend_otp', methods=['POST'])
+def resend_otp():
+    email = session.get('reset_email')
+
+    # If no email stored in session, restart the reset process
+    if not email:
+        flash("Session expired! Please request password reset again.")
+        return redirect('/reset')
+
+    # Validate email in the database
+    userdata = execute_query('search', "SELECT * FROM user_login WHERE email = %s", (email,))
+    if not userdata:
+        flash("Invalid session! Please enter a valid email.")
+        return redirect('/reset')
+
+    # Generate a new OTP
+    otp = random.randint(100000, 999999)
+    session['otp'] = otp  # Update OTP in session
+
+    # Send new OTP email
+    msg = Message("Resend OTP - Password Reset", sender=app.config['MAIL_USERNAME'], recipients=[email])
+    msg.body = f"Your new OTP for password reset is: {otp}. This OTP will expire in 10 minutes."
+    mail.send(msg)
+
+    flash("A new OTP has been sent to your email.")
+    return redirect('/verify_otp')
+
+
+
+
+
+
 
 
 @app.route('/register')
@@ -250,76 +317,62 @@ def registration():
         return redirect('/home')
 
 
+
 # Load the pretrained GAN model
 model_path = os.path.join(MODEL_FOLDER, "Main_Model.pth")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
-# Define transforms
+# Define transforms (if needed elsewhere)
 transform = transforms.Compose([
     transforms.Resize((256, 256)),
     transforms.ToTensor()
 ])
 
-# Load the GAN model
+# Load the GAN model (assuming your model has an attribute net_G)
 net_G = torch.load(model_path, map_location=device)
-net_G.eval()  # Set the model to evaluation mode
-
+net_G.eval()  # Set model to evaluation mode
 
 # Preprocessing function
+
 def preprocess_image(image_path, size=256):
     """
     Preprocess a grayscale image for the model.
-    Args:
-        image_path: Path to the grayscale image.
-        size: Target size for the image (default: 256x256).
-    Returns:
-        Preprocessed L-channel tensor and the resized original grayscale image.
+    Returns a tensor for the L channel and the resized image.
     """
-    img = Image.open(image_path).convert("RGB")  # Ensure it's in RGB format
+    img = Image.open(image_path).convert("RGB")  # Ensure RGB format
     transforms_pipeline = transforms.Compose([
-        transforms.Resize((size, size), Image.BICUBIC)  # Resize to model's input size
+        transforms.Resize((size, size), Image.BICUBIC)
     ])
     img_resized = transforms_pipeline(img)
-
-    # Convert to LAB color space
     img_array = np.array(img_resized)
-    img_lab = rgb2lab(img_array).astype("float32")  # Convert to LAB
-
-    # Extract and normalize the L-channel
-    L = img_lab[:, :, 0] / 50.0 - 1.0  # Normalize to [-1, 1]
-    L_tensor = torch.tensor(L).unsqueeze(0).unsqueeze(0)  # Add batch and channel dimensions
-
+    img_lab = rgb2lab(img_array).astype("float32")
+    L = img_lab[:, :, 0] / 50.0 - 1.0  # Normalize L to [-1,1]
+    L_tensor = torch.tensor(L).unsqueeze(0).unsqueeze(0)  # Shape: (1,1,H,W)
     return L_tensor.to(device), img_resized
 
 
 # Colorization function
 def colorize_image(net_G, L_tensor):
     """
-    Colorize a grayscale image using the trained model.
-    Args:
-        model: Trained GAN model.
-        L_tensor: Preprocessed L-channel tensor.
-    Returns:
-        Colorized image in RGB format.
+    Colorizes a grayscale image using the trained GAN model.
+    Returns the final colorized image in RGB format.
     """
     with torch.no_grad():
         ab_pred = net_G.net_G(L_tensor)  # Generate predicted ab channels
     L = (L_tensor.squeeze().cpu().numpy() + 1.0) * 50.0  # Denormalize L
     ab = ab_pred.squeeze().cpu().numpy() * 110.0  # Denormalize ab
-    ab = np.moveaxis(ab, 0, -1)  # Convert shape from (2, 256, 256) to (256, 256, 2)
-
-    # Combine L and ab channels to form LAB and convert to RGB
+    ab = np.moveaxis(ab, 0, -1)  # Shape: (H, W, 2)
     lab_combined = np.zeros((L.shape[0], L.shape[1], 3))
     lab_combined[:, :, 0] = L
     lab_combined[:, :, 1:] = ab
     rgb_image = lab2rgb(lab_combined)
     return rgb_image
 
+
 @app.route('/colorize', methods=['POST'])
-def colorize():
+def colorize_endpoint():
     """
-    Receives an uploaded image, processes it, and returns the colorized image URL.
+    Receives an uploaded image, processes it, and returns the URL to the colorized image.
     """
     if 'file' not in request.files:
         return jsonify({'error': 'No file uploaded'}), 400
@@ -328,82 +381,154 @@ def colorize():
     if file.filename == '':
         return jsonify({'error': 'No file selected'}), 400
 
-    # Save and process the uploaded file
     filename = secure_filename(file.filename)
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(filepath)
 
-    return redirect(url_for('process_image', filename=filename))
-
-
-# Flask routes
-@app.route('/home', methods=['GET', 'POST'])
-def index():
-    """
-    Homepage with upload functionality and displays the colorized image.
-    """
-    if request.method == 'GET' and 'colorized_image' not in session:
-        session.pop('colorized_image', None)  # Only clear when there's no processed image
-
-    colorized_filename = session.get('colorized_image', None)  # Use the correct session key
-
-    if request.method == 'POST':
-        # Check if the file is in the request
-        if 'file' not in request.files:
-            flash("No file uploaded!")
-            return redirect(request.url)
-
-        file = request.files['file']
-        if file.filename == '':
-            flash("No file selected!")
-            return redirect(request.url)
-
-        if file:
-            # Save the uploaded file
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(filepath)
-
-            # Redirect to process the uploaded image
-            return redirect(url_for('process_image', filename=file.filename))
-
-    return render_template('Home.html', colorized_image=colorized_filename)
-
-
-@app.route('/process/<filename>', methods=['GET', 'POST'])
-def process_image(filename):
-    """
-    Processes the uploaded image and performs colorization.
-    """
     try:
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-
-        # Check if file exists before processing
-        if not os.path.exists(filepath):
-            return jsonify({'error': 'File not found'}), 400
-
-        # Preprocess the image for the model
         L_tensor, original_image = preprocess_image(filepath)
-
-        # Colorize the image using the trained model
         colorized_image = colorize_image(net_G, L_tensor)
-
-        # Save the colorized image
         colorized_filename = f"colorized_{filename}"
         result_path = os.path.join(app.config['RESULT_FOLDER'], colorized_filename)
         Image.fromarray((colorized_image * 255).astype(np.uint8)).save(result_path)
-
-        # Update session with the new image
-        session['colorized_image'] = colorized_filename
-
-        # Return the correct path for the new image
-        return jsonify({'colorized_image': url_for('result_file', filename=colorized_filename)})
-
+        result_url = url_for('result_file', filename=colorized_filename, _external=True)
+        return jsonify({'colorized_image': result_url})
     except Exception as e:
         return jsonify({'error': f"An error occurred: {str(e)}"}), 500
 
 
+# Flask routes
+# @app.route('/home', methods=['GET', 'POST'])
+# def index():
+#     """
+#     Homepage with upload functionality and displays the colorized image.
+#     """
+#     if request.method == 'GET' and 'colorized_image' not in session:
+#         session.pop('colorized_image', None)  # Only clear when there's no processed image
+#
+#     colorized_filename = session.get('colorized_image', None)  # Use the correct session key
+#
+#     if request.method == 'POST':
+#         # Check if the file is in the request
+#         if 'file' not in request.files:
+#             flash("No file uploaded!")
+#             return redirect(request.url)
+#
+#         file = request.files['file']
+#         if file.filename == '':
+#             flash("No file selected!")
+#             return redirect(request.url)
+#
+#         if file:
+#             # Save the uploaded file
+#             filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+#             file.save(filepath)
+#
+#             # Redirect to process the uploaded image
+#             return redirect(url_for('process_image', filename=file.filename))
+#
+#     return render_template('Home.html', colorized_image=colorized_filename)
+
+@app.route('/home', methods=['GET', 'POST'])
+def index():
+    colorized_filename = session.get('colorized_image', None)
+    return render_template('Home.html', colorized_image=colorized_filename)
 
 
+@app.route('/upload', methods=['POST'])
+def handle_upload():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file uploaded'}), 400
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No file selected'}), 400
+
+    try:
+        # Validate file size
+        if len(file.read()) > 20 * 1024 * 1024:  # 20MB limit
+            return jsonify({'error': 'File size exceeds 20MB limit'}), 400
+        file.seek(0)  # Reset file pointer after reading
+
+        # Validate file type
+        filename = secure_filename(file.filename)
+        if not allowed_file(filename):
+            return jsonify({'error': 'Unsupported file format'}), 400
+
+        # Save original file
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+
+        return jsonify({
+            'filename': filename,
+            'preview_url': url_for('uploaded_file', filename=filename)
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'webp'}
+
+
+@app.route('/process/<filename>')
+def process_image(filename):
+    conversion_type = request.args.get('type', 'colorize')
+
+    try:
+        input_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        if not os.path.exists(input_path):
+            return jsonify({'error': 'File not found'}), 404
+
+        # Generate unique output filename
+        base_name = os.path.splitext(filename)[0]
+        result_filename = f"{conversion_type}_{base_name}.png"
+        result_path = os.path.join(app.config['RESULT_FOLDER'], result_filename)
+
+        if conversion_type == 'grayscale':
+            # Convert to grayscale
+            img = Image.open(input_path).convert('L')
+            img.save(result_path)
+        elif conversion_type == 'colorize':
+            # Colorize using GAN model
+            L_tensor, _ = preprocess_image(input_path)
+            with torch.no_grad():
+                ab_pred = net_G.net_G(L_tensor)
+
+            # Post-process and save
+            colorized_image = postprocess_colorization(L_tensor, ab_pred)
+            Image.fromarray(colorized_image).save(result_path)
+        else:
+            return jsonify({'error': 'Invalid conversion type'}), 400
+
+        return jsonify({
+            'result_url': url_for('result_file', filename=result_filename),
+            'download_url': url_for('download_file', filename=result_filename)
+        })
+
+    except Exception as e:
+        return jsonify({'error': f'Processing failed: {str(e)}'}), 500
+
+
+def postprocess_colorization(L_tensor, ab_pred):
+    """Convert model output to displayable RGB image"""
+    L = L_tensor.cpu().squeeze().numpy()
+    L = (L + 1) * 50  # Denormalize L channel
+    ab = ab_pred.cpu().squeeze().numpy().transpose(1, 2, 0) * 110  # Denormalize ab
+
+    lab = np.concatenate([L[..., np.newaxis], ab], axis=2)
+    rgb = lab2rgb(lab) * 255
+    return rgb.astype(np.uint8)
+
+
+@app.route('/download/<filename>')
+def download_file(filename):
+    return send_from_directory(
+        app.config['RESULT_FOLDER'],
+        filename,
+        as_attachment=True
+    )
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     """
