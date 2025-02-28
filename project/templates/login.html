@@ -1,219 +1,120 @@
-<!--<!doctype html>-->
-<!--<html lang="en">-->
-<!--  <head>-->
-<!--    &lt;!&ndash; Required meta tags &ndash;&gt;-->
-<!--    <meta charset="utf-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
 
-<!--    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">-->
 
-<!--    &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-<!--    <script src="{{ url_for('static', filename='js/script.js') }}"></script>-->
-<!--    <title>Personal Finance Management System - Login</title>-->
-<!--  </head>-->
-<!--  <body class="login-page">-->
-<!--&lt;!&ndash;  Creating navbar&ndash;&gt;-->
-<!--    <nav class="navbar bg-nav">-->
-<!--        <a href="" class="navbar-brand text-light">Personal Finance Management System - Login</a>-->
-<!--    </nav>-->
-<!--&lt;!&ndash;  creating a main div  &ndash;&gt;-->
-<!--    <div class="container">-->
-<!--      <div class="row">-->
-<!--        <div class="col-md-8">-->
-<!--&lt;!&ndash;            <h1 class="display-4 mt-50" style="font-size:70px; color:black;">&ndash;&gt;-->
-<!--&lt;!&ndash;                Take charge of your finances with advanced expense tracking and visualization capabilities&ndash;&gt;-->
-<!--&lt;!&ndash;            </h1>&ndash;&gt;-->
-<!--        </div>-->
-<!--        <div class="col-md-4">-->
-<!--            {% for message in get_flashed_messages() %}-->
-<!--                <div class="alert alert-danger alert-dismissible fade show my-1" id="alert" role="alert">-->
-<!--                    {{ message }}-->
-<!--                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
-<!--                        <span aria-hidden="true">&times;</span>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            {% endfor %}-->
-<!--          <div class="login-card">-->
-<!--            <div >-->
-<!--              <form class="form" method="post" action="/login_validation">-->
-<!--                <label>Email</label><br>-->
-<!--                <input type="email" class="form-control" name="email" placeholder="Enter your registered email" required><br>-->
-<!--                <label>Password</label><br>-->
-<!--                <input type="password" class="form-control" name="password" placeholder="Enter your password" required><br><br>-->
-<!--                  <button type="submit" class="btn btn-primary btn-block btn-lg" value="Login">Login</button>-->
-<!--              </form>-->
-
-<!--              &lt;!&ndash; Reset Password &ndash;&gt;-->
-<!--              <div class="row">-->
-<!--                <div class="col my-1">-->
-<!--                    <div class="form-check m-1"></div>-->
-<!--                </div>-->
-<!--                <div class="col">-->
-<!--                    <p class="mt-2" data-toggle="modal" data-target="#password_reset"><a href="#password_reset">Forget Password?</a></p>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              &lt;!&ndash; Password Reset Modal &ndash;&gt;-->
-<!--              <div class="modal top fade" id="password_reset" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">-->
-<!--                <div class="modal-dialog" style="width: 300px;">-->
-<!--                  <div class="modal-content text-center">-->
-<!--                    <div class="modal-header h5 text-white bg-primary justify-content-center">-->
-<!--                        Password Reset-->
-<!--                    </div>-->
-<!--                    <div class="modal-body px-5">-->
-<!--                        <p class="py-2">Enter your registered email address to receive a password reset link.</p>-->
-<!--                        <form class="form" method="post" action="/reset">-->
-<!--                            <input type="email" class="form-control " id="femail" name="femail" placeholder="Enter registered email" required>-->
-<!--                            <input type="submit" class="btn my-2 btn-primary btn-block" id="reset" name="reset" value="Send Reset Link">-->
-<!--                        </form>-->
-<!--                        <div class="d-flex justify-content-between mt-4">-->
-<!--                            <a class="" href="/">Login</a>-->
-<!--                            <a class="" href="/register">Register</a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              <p class="mt-2">Not a member? <a href="/register">Register</a></p>-->
-<!--              <p class="mt-2">Any Query? <a href="/contact">Contact Us</a> </p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <script type="text/javascript">-->
-<!--        setTimeout(function () {-->
-<!--            $('#alert').alert('close');-->
-<!--        }, 3000);-->
-<!--    </script>-->
-
-<!--    &lt;!&ndash; Optional JavaScript &ndash;&gt;-->
-<!--    &lt;!&ndash; jQuery first, then Popper.js, then Bootstrap JS &ndash;&gt;-->
-<!--    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
-<!--  </body>-->
-<!--</html>-->
-
+<!--&lt;!&ndash; login.html &ndash;&gt;-->
 <!--<!DOCTYPE html>-->
 <!--<html lang="en">-->
 <!--<head>-->
 <!--    <meta charset="UTF-8">-->
 <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>Login - Image Colorization</title>-->
-<!--    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">-->
+<!--    <title>Login | ImageTone</title>-->
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"-->
 <!--</head>-->
-<!--<body>-->
-<!--    <div class="container">-->
-<!--        <h1 class="form-title">Login</h1>-->
+<!--<body class="auth-page">-->
+<!--    <div class="auth-container">-->
+<!--        <div class="auth-card">-->
+<!--            <div class="auth-header">-->
+<!--                <div class="logo">-->
+<!--                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
+<!--                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>-->
+<!--                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>-->
+<!--                        <line x1="12" y1="22.08" x2="12" y2="12"></line>-->
+<!--                    </svg>-->
+<!--                    <span>ImageTone</span>-->
+<!--                </div>-->
+<!--                <h1>Welcome Back</h1>-->
+<!--                <p class="auth-subtitle">Sign in to continue to your account</p>-->
+<!--            </div>-->
 
-<!--        <div class="flash-messages">-->
-<!--            {% with messages = get_flashed_messages() %}-->
-<!--                {% if messages %}-->
-<!--                    {% for message in messages %}-->
-<!--                        <div class="flash-message">{{ message }}</div>-->
-<!--                    {% endfor %}-->
-<!--                {% endif %}-->
-<!--            {% endwith %}-->
+<!--            <div class="flash-messages">-->
+<!--                &lt;!&ndash; Flash messages will be inserted here dynamically &ndash;&gt;-->
+<!--            </div>-->
+
+<!--            <form class="auth-form" action="/login_validation" method="POST" >-->
+<!--                <div class="form-group">-->
+<!--                    <label for="email">Email</label>-->
+<!--                    <div class="input-group">-->
+<!--                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
+<!--                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>-->
+<!--                            <polyline points="22,6 12,13 2,6"></polyline>-->
+<!--                        </svg>-->
+<!--                        <input type="email" id="email" name="email" placeholder="Enter your email" required>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="form-group">-->
+<!--                    <label for="password">Password</label>-->
+<!--                    <div class="input-group">-->
+<!--                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
+<!--                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>-->
+<!--                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>-->
+<!--                        </svg>-->
+<!--                        <input type="password" id="password" name="password" placeholder="Enter your password" required>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="form-options">-->
+<!--                    <label class="remember-me">-->
+<!--                        <input type="checkbox" name="remember">-->
+<!--                        <span>Remember me</span>-->
+<!--                    </label>-->
+<!--                    <a href="/forgot-password" class="forgot-password">Forgot password?</a>-->
+<!--                </div>-->
+<!--                <button type="submit" class="btn btn-primary">Sign In</button>-->
+<!--            </form>-->
+
+<!--            <div class="auth-footer">-->
+<!--                <p>Don't have an account? <a href="/register">Sign up</a></p>-->
+<!--            </div>-->
 <!--        </div>-->
-
-<!--        <form action="/login_validation" method="POST">-->
-<!--            <div class="form-group">-->
-<!--                <label for="email">Email</label>-->
-<!--                <input type="email" id="email" name="email" required>-->
-<!--            </div>-->
-<!--            <div class="form-group">-->
-<!--                <label for="password">Password</label>-->
-<!--                <input type="password" id="password" name="password" required>-->
-<!--            </div>-->
-<!--            <button type="submit" class="btn">Login</button>-->
-<!--        </form>-->
-
-<!--        <div class="links">-->
-<!--            <a href="/register">Create Account</a> |-->
-<!--            <a href="#" onclick="showResetForm()">Forgot Password?</a>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; Hidden Reset Password Form &ndash;&gt;-->
-<!--        <form id="resetForm" action="/reset" method="POST" style="display: none; margin-top: 1rem;">-->
-<!--            <div class="form-group">-->
-<!--                <label for="femail">Email for Reset</label>-->
-<!--                <input type="email" id="femail" name="femail" required>-->
-<!--            </div>-->
-<!--            <button type="submit" class="btn">Send OTP</button>-->
-<!--        </form>-->
 <!--    </div>-->
-
-<!--    <script>-->
-<!--        function showResetForm() {-->
-<!--            document.getElementById('resetForm').style.display = 'block';-->
-<!--        }-->
-<!--    </script>-->
 <!--</body>-->
 <!--</html>-->
 
-<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | ImageTone</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"
+    <title>ImageTone | Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
 </head>
-<body class="auth-page">
+<body>
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
                 <div class="logo">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                     <span>ImageTone</span>
                 </div>
                 <h1>Welcome Back</h1>
-                <p class="auth-subtitle">Sign in to continue to your account</p>
+                <p>Sign in to continue to ImageTone</p>
             </div>
 
-            <div class="flash-messages">
-                <!-- Flash messages will be inserted here dynamically -->
-            </div>
-
-            <form class="auth-form" action="/login_validation" method="POST" >
+            <form class="auth-form" action="/login_validation" method="POST">
                 <div class="form-group">
                     <label for="email">Email</label>
                     <div class="input-group">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-group">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                        </svg>
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <input type="password" id="password" name="password" required placeholder="Enter your password">
                     </div>
                 </div>
 
                 <div class="form-options">
                     <label class="remember-me">
                         <input type="checkbox" name="remember">
-                        <span>Remember me</span>
+                        Remember me
                     </label>
-                    <a href="/forgot-password" class="forgot-password">Forgot password?</a>
+                    <a href="/reset" class="forgot-password" >Forgot password?</a>
                 </div>
+
                 <button type="submit" class="btn btn-primary">Sign In</button>
             </form>
 

@@ -20,8 +20,9 @@
                     <li><a href="#features">Features</a></li>
                     <li><a href="#how-it-works">How It Works</a></li>
                     <li><a href="#upload">Try Now</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
-                    <li><a href="#contact">Contact</a></li>
+<!--                    <li><a href="#pricing">Pricing</a></li>-->
+<!--                    <li><a href="#contact">Contact</a></li>-->
+                    <li><a href="/logout">Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -167,5 +168,125 @@
 <!--            <p>&copy; 2025 ImageTone. All rights reserved.</p>-->
         </div>
     </footer>
+<script>
+
+function showResult(result) {
+    const resultHTML = `
+        <div class="result-container">
+            <h3>Conversion Result</h3>
+            <div class="result-preview">
+                <img src="${result.result_url}" alt="Conversion result">
+            </div>
+            <div class="result-actions">
+                <a href="${result.download_url}" class="btn btn-primary">
+                    Download Image
+                </a>
+            </div>
+        </div>
+    `;
+
+    // Remove existing results
+    const existing = document.querySelector('.result-container');
+    if (existing) existing.remove();
+
+    // Insert after upload section
+    document.querySelector('#upload').insertAdjacentHTML('beforeend', resultHTML);
+}
+
+// Error handling
+function showError(message) {
+    const errorHTML = `
+        <div class="error-message">
+            ${message}
+        </div>
+    `;
+
+    // Remove existing errors
+    const existing = document.querySelector('.error-message');
+    if (existing) existing.remove();
+
+    document.querySelector('#upload').insertAdjacentHTML('afterbegin', errorHTML);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const uploadArea = document.querySelector('.upload-area');
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
+
+    // File upload handling
+    uploadArea.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        // Show loading state
+        uploadArea.classList.add('uploading');
+
+        try {
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            if (result.error) throw new Error(result.error);
+
+            // Store filename for conversion
+            sessionStorage.setItem('currentFile', result.filename);
+
+        } catch (error) {
+            alert(error.message);
+        } finally {
+            uploadArea.classList.remove('uploading');
+        }
+    });
+
+    // Conversion handlers
+    document.querySelectorAll('.action-buttons button').forEach(button => {
+        button.addEventListener('click', async () => {
+            const filename = sessionStorage.getItem('currentFile');
+            if (!filename) {
+                alert('Please upload an image first!');
+                return;
+            }
+
+            const conversionType = button.classList.contains('btn-primary')
+                ? 'grayscale'
+                : 'colorize';
+
+            try {
+                const response = await fetch(`/process/${filename}?type=${conversionType}`);
+                const result = await response.json();
+
+                if (result.error) throw new Error(result.error);
+
+                // Display result - add this div before </section> in upload section
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'result-container';
+                resultDiv.innerHTML = `
+                    <h3>Converted Image</h3>
+                    <img src="${result.result_url}" alt="Converted result">
+                    <a href="${result.result_url}" download class="btn btn-secondary">
+                        Download Result
+                    </a>
+                `;
+                document.querySelector('#upload').appendChild(resultDiv);
+
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+    });
+});
+
+
+</script>
+
 </body>
 </html>
