@@ -174,13 +174,7 @@ body {
   cursor: not-allowed;
 }
 
-/* Success State */
-.success-icon {
-  display: flex;
-  justify-content: center;
-  margin: 2rem 0;
-  color: var(--success-color);
-}
+
 
 /* Button Styles */
 .btn {
@@ -253,80 +247,36 @@ body {
   animation: slideIn 0.3s ease-out;
 }
 
-/* Alert Base Styles */
+.alert-container {
+    margin-bottom: 15px;
+}
+
 .alert {
-  padding: 1rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Alert Icon */
-.alert-icon {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-}
-
-/* Alert Content */
-.alert-content {
-  flex-grow: 1;
-}
-
-.alert-title {
-  font-weight: 600;
-  margin: 0 0 0.25rem;
-  font-size: 1rem;
-}
-
-.alert-message {
-  margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.5;
-}
-
-/* Close Button */
-.alert-close {
-  flex-shrink: 0;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  opacity: 0.5;
-  transition: opacity 0.2s ease;
-}
-
-.alert-close:hover {
-  opacity: 1;
-}
-
-/* Alert Types */
 .alert-success {
-  background-color: #ecfdf5;
-  border: 1px solid #a7f3d0;
-  color: #065f46;
+    background-color: #28a745; /* Green for success */
 }
 
 .alert-error {
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #991b1b;
+    background-color: #dc3545; /* Red for error */
 }
 
-.alert-warning {
-  background-color: #fffbeb;
-  border: 1px solid #fde68a;
-  color: #92400e;
+.alert-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-.alert-info {
-  background-color: #eff6ff;
-  border: 1px solid #bfdbfe;
-  color: #1e40af;
-}
 
 /* Alert Animation */
 @keyframes slideIn {
@@ -372,4 +322,22 @@ body {
   .alert-message {
     font-size: 0.813rem;
   }
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.success-icon {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  color: var(--success-color);
 }
