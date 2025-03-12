@@ -104,8 +104,7 @@ def login_validation():
 
         if users:
             stored_password = users[0][3]  # Assuming the password is in the 4th column (hashed password)
-            print(passwd.encode('utf-8'))
-            print(stored_password.encode('utf-8'))
+
             if bcrypt.checkpw(passwd.encode('utf-8'), stored_password.encode('utf-8')):
                 session['user_id'] = users[0][0]
                 return redirect('/home')
@@ -138,15 +137,24 @@ def reset():
     if request.method == 'GET':
         return render_template('reset_password.html')
 
+    # Clear any previous reset session data
+    session.pop('reset_email', None)
+    session.pop('otp', None)
+
     email = request.form.get('femail')
+    if email:
+        email = email.strip().lower()  # Validation: remove extra spaces and lowercase
+    else:
+        flash("Please enter your email address.","error")
+        return redirect('/reset')
 
     # Check if email exists in the database
     userdata = execute_query('search', "SELECT * FROM user_login WHERE email = %s", (email,))
     print(userdata)
 
-    if not userdata or userdata is None or userdata == ():
-        print("yes")
-        flash("Invalid email address! Please enter a registered email.")
+    if not userdata or userdata == ():
+        # Display error message if user not found
+        flash("Invalid email address! Please enter a registered email.","error")
         return redirect('/reset')  # Stay on the reset page
 
     # Generate OTP
@@ -155,14 +163,15 @@ def reset():
     # Store OTP & email in session
     session['reset_email'] = email
     session['otp'] = otp
-
+    print(otp)
     # Send OTP via email
     msg = Message("Password Reset OTP", sender=app.config['MAIL_USERNAME'], recipients=[email])
     msg.body = f"Your OTP for password reset is: {otp}. This OTP will expire in 10 minutes."
     mail.send(msg)
 
-    flash("An OTP has been sent to your email.")
+    flash("An OTP has been sent to your email.","success")
     return redirect('/verify_otp')  # Move to OTP verification step
+
 
 # 🔹 Step 2: OTP Verification (Checks if OTP is correct)
 @app.route('/verify_otp', methods=['GET', 'POST'])
@@ -171,45 +180,51 @@ def verify_otp():
         return render_template('verify_otp.html')  # Make sure this page exists
 
     email = session.get('reset_email')
+    otp = session.get('otp')
     entered_otp = request.form.get('otp')
-
+    print("entered otp:",entered_otp,"\nOtp sended:",otp)
     # If email is missing in session, restart reset process
     if not email:
-        flash("Session expired! Please request password reset again.")
+        flash("Session expired! Please request password reset again.","error")
         return redirect('/reset')
 
     # Validate if email exists in database (ensuring security)
     userdata = execute_query('search', "SELECT * FROM user_login WHERE email = %s", (email,))
     if not userdata:
-        flash("Invalid session! Please enter a valid email.")
+        flash("Invalid session! Please enter a valid email.","error")
         return redirect('/reset')
 
     # Check if entered OTP matches the stored one
     if entered_otp and int(entered_otp) == session.get('otp'):
-        flash("OTP verified! Now enter your new password.")
+        flash("OTP verified! Now enter your new password.", "success")
         return redirect('/set_new_password')  # Move to password reset step
     else:
-        flash("Invalid OTP! Please enter the correct OTP.")
+        flash("Invalid OTP! Please enter the correct OTP.","error")
         return redirect('/verify_otp')  # Stay on OTP page
-
 # 🔹 Step 3: Set New Password (Ensures OTP was verified)
 @app.route('/set_new_password', methods=['GET', 'POST'])
 def set_new_password():
     if request.method == 'GET':
-        return render_template('set_new_password.html')  # Make sure this page exists
+        return render_template('set_password.html')  # Ensure this is correct
 
     email = session.get('reset_email')
     new_password = request.form.get('new_password')
+    confirm_password = request.form.get('confirm_password')
 
     # If email is missing in session, restart reset process
     if not email:
-        flash("Session expired! Please request password reset again.")
+        flash("Session expired! Please request password reset again.", "error")
         return redirect('/reset')
 
-    # Validate email again before updating password
+    # Check if passwords match
+    if new_password != confirm_password:
+        flash("Passwords do not match!", "error")
+        return redirect('/set_new_password')
+
+    # Validate email before updating password
     userdata = execute_query('search', "SELECT * FROM user_login WHERE email = %s", (email,))
     if not userdata:
-        flash("Invalid session! Please enter a valid email.")
+        flash("Invalid session! Please enter a valid email.", "error")
         return redirect('/reset')
 
     # Hash the new password
@@ -224,11 +239,11 @@ def set_new_password():
         session.pop('otp', None)
         session.pop('reset_email', None)
 
-        flash("Your password has been reset successfully!")
+        flash("Your password has been reset successfully!", "success")
         return redirect('/')  # Redirect to login page
     except:
-        flash("Something went wrong while resetting the password! Try again.")
-        return redirect('/set_new_password')
+        flash("Something went wrong while resetting the password! Try again.", "error")
+        return redirect('/reset')
 
 # 🔹 Optional: Resend OTP Route
 @app.route('/resend_otp', methods=['POST'])
