@@ -1,114 +1,121 @@
-<!--&lt;!&ndash; templates/verify_otp.html &ndash;&gt;-->
-<!--<!doctype html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--  &lt;!&ndash; Required meta tags &ndash;&gt;-->
-<!--  <meta charset="utf-8">-->
-<!--  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
-
-<!--  &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
-<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-<!--  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">-->
-
-<!--  <title> Personal Finance Management System</title>-->
-<!--</head>-->
-
-<!--<body class="login-page">-->
-<!--  &lt;!&ndash; Navbar &ndash;&gt;-->
-<!--  <nav class="navbar bg-nav">-->
-<!--    <a href="#" class="navbar-brand text-light">Personal Finance Management System - Verify OTP</a>-->
-<!--  </nav>-->
-
-<!--  &lt;!&ndash; Main Content &ndash;&gt;-->
-<!--  <div class="container">-->
-<!--    <div class="row">-->
-<!--      <div class="col-md-8">-->
-<!--        <h1 class="text-light display-4 mt-5" style="font-size: 40px;">Verify Your OTP</h1>-->
-<!--      </div>-->
-<!--      <div class="col-md-4">-->
-<!--        &lt;!&ndash; Flash messages &ndash;&gt;-->
-<!--        {% for message in get_flashed_messages() %}-->
-<!--        <div class="alert alert-danger alert-dismissible fade show my-1" id="alert" role="alert">-->
-<!--          {{ message }}-->
-<!--          <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
-<!--            <span aria-hidden="true">&times;</span>-->
-<!--          </button>-->
-<!--        </div>-->
-<!--        {% endfor %}-->
-
-<!--        &lt;!&ndash; OTP Verification Form &ndash;&gt;-->
-<!--        <div class="login-card">-->
-<!--&lt;!&ndash;          <div class="card-body">&ndash;&gt;-->
-<!--            <form method="post">-->
-<!--              <div class="form-group">-->
-<!--                <label for="otp">OTP</label>-->
-<!--                <input type="text" id="otp" class="form-control" name="otp" placeholder="Enter the OTP" required>-->
-<!--              </div>-->
-<!--              <div class="form-group">-->
-<!--                <label for="new_password">New Password</label>-->
-<!--                <input type="password" id="new_password" class="form-control" name="new_password" placeholder="Enter new password" required>-->
-<!--              </div>-->
-<!--              <button type="submit" class="btn btn-primary btn-block">Reset Password</button>-->
-<!--            </form>-->
-<!--            <p class="mt-2">Remembered your password? <a href=" / ">Login</a></p>-->
-<!--            <p class="mt-2">Any Query? <a href="/contact">Contact Us</a></p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--  &lt;!&ndash; Optional JavaScript &ndash;&gt;-->
-<!--  &lt;!&ndash; jQuery first, then Popper.js, then Bootstrap JS &ndash;&gt;-->
-<!--  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
-<!--  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
-<!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
-<!--  <script type="text/javascript">-->
-<!--    setTimeout(function () {-->
-<!--      // Closing the alert-->
-<!--      $('#alert').alert('close');-->
-<!--    }, 3000);-->
-<!--  </script>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify OTP - Image Colorization</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>ImageTone | Verify OTP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
+<!--    <script defer src="{{ url_for('static', filename='otp_verification.js') }}"></script>-->
 </head>
 <body>
-    <div class="container">
-        <h1 class="form-title">Verify OTP</h1>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <span>ImageTone</span>
+                </div>
+                <h1>Verify OTP</h1>
+                <p>Enter the 6-digit OTP sent to your email.</p>
+            </div>
 
-        <div class="flash-messages">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="flash-message">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
+            {% with messages = get_flashed_messages(with_categories=True) %}
+              {% if messages %}
+                <div class="alert-container">
+                  {% for category, message in messages %}
+                    <div class="alert {% if category == 'success' %}alert-success{% else %}alert-error{% endif %}">
+                      <span class="alert-message">{{ message }}</span>
+                      <button class="alert-close">&times;</button>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
             {% endwith %}
-        </div>
 
-        <form action="/verify_otp" method="POST">
-            <div class="form-group">
-                <label for="otp">Enter OTP</label>
-                <input type="text" id="otp" name="otp" required>
-            </div>
-            <div class="form-group">
-                <label for="new_password">New Password</label>
-                <input type="password" id="new_password" name="new_password" required>
-            </div>
-            <button type="submit" class="btn">Reset Password</button>
-        </form>
 
-        <div class="links">
-            <a href="/">Back to Login</a>
+
+
+            <div class="step-indicator">
+                <div class="step-dot "></div>
+                <div class="step-dot active"></div>
+                <div class="step-dot"></div>
+            </div>
+
+
+
+            <form id="otp-form" class="auth-form" action="/verify_otp" method="POST">
+                <div class="otp-inputs">
+                    <input type="text" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" maxlength="1" pattern="[0-9]" required>
+                </div>
+                <input type="hidden" id="otp" name="otp">
+
+                <button type="submit" class="btn btn-primary">Verify OTP</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Didn't receive the code? <button type="button" class="resend-button" disabled>Resend OTP</button></p>
+                <p>Resend OTP in <span id="countdown">60</span></p>
+            </div>
         </div>
     </div>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const otpInputs = document.querySelectorAll(".otp-inputs input");
+    const hiddenOtpInput = document.getElementById("otp");
+    const otpForm = document.getElementById("otp-form");
+
+    // Auto-focus next input when a digit is entered
+    otpInputs.forEach((input, index) => {
+        input.addEventListener("input", function () {
+            if (this.value.length === 1 && index < otpInputs.length - 1) {
+                otpInputs[index + 1].focus();
+            }
+        });
+
+        input.addEventListener("keydown", function (event) {
+            if (event.key === "Backspace" && index > 0 && this.value.length === 0) {
+                otpInputs[index - 1].focus();
+            }
+        });
+    });
+
+    // Before submitting, combine all OTP digits and store them in the hidden field
+    otpForm.addEventListener("submit", function (event) {
+        let otpValue = "";
+        otpInputs.forEach(input => {
+            otpValue += input.value;
+        });
+
+        if (otpValue.length !== 6) {
+            event.preventDefault();
+            alert("Please enter a 6-digit OTP.");
+            return;
+        }
+
+        hiddenOtpInput.value = otpValue;
+    });
+
+    // Resend OTP Countdown
+    let timeLeft = 60;
+    const countdownElement = document.getElementById("countdown");
+    const resendBtn = document.querySelector(".resend-button");
+
+    const countdown = setInterval(() => {
+        timeLeft--;
+        countdownElement.textContent = `00:${timeLeft < 10 ? '0' + timeLeft : timeLeft}`;
+        if (timeLeft === 0) {
+            clearInterval(countdown);
+            resendBtn.disabled = false;
+        }
+    }, 1000);
+});
+
+</script>
 </body>
 </html>
