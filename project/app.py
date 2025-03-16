@@ -280,38 +280,43 @@ def resend_otp():
 
 
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if 'user_id' in session:
-        flash("Already a user is logged-in!")
-        return redirect('/home')
+        flash("Already a user is logged-in!","error")
+        return redirect('/')
     else:
         return render_template("register.html")
 
 
-@app.route('/registration', methods=['POST'])
+@app.route('/registration', methods=['GET', 'POST'])
 def registration():
     if 'user_id' not in session:
         name = request.form.get('name').strip()
         email = request.form.get('email').strip()
         passwd = request.form.get('password').strip()
+        confirm_passwd = request.form.get('confirm-password').strip()
 
         if not name.replace(" ", "").isalpha() or len(name) < 5:
-            flash("Name must be at least 5 characters long and contain only alphabetic characters.")
+            flash("Name must be at least 5 characters long and contain only alphabetic characters.","error")
             return redirect('/register')
 
         email_regex = r'^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         if not re.match(email_regex, email):
-            flash("Invalid email format. Please enter a valid email address.")
+            flash("Invalid email format. Please enter a valid email address.","error")
             return redirect('/register')
 
         if len(passwd) < 5:
-            flash("Password must be at least 5 characters long.")
+            flash("Password must be at least 5 characters long.","error")
+            return redirect('/register')
+
+        if passwd != confirm_passwd:
+            flash("Passwords do not match!", "error")
             return redirect('/register')
 
         existing_user = execute_query('search', "SELECT * FROM user_login WHERE email = %s", (email,))
         if existing_user:
-            flash("Email ID already exists, use another email!")
+            flash("Email ID already exists, use another email!","error")
             return redirect('/register')
 
         try:
@@ -322,20 +327,27 @@ def registration():
             user = execute_query('search', "SELECT * FROM user_login WHERE email = %s", (email,))
             session['user_id'] = user[0][0]
 
-            flash("Successfully Registered!")
-            return redirect('/home')
+            flash("Successfully Registered!", "success")
+            return redirect('/')
         except Exception as e:
-            flash(f"An error occurred during registration: {e}")
+            flash(f"An error occurred during registration: {e}","error")
             return redirect('/register')
     else:
-        flash("Already a user is logged-in!")
-        return redirect('/home')
+        flash("Already a user is logged-in!","error")
+        return redirect('/')
 
 
-
-# Load the pretrained GAN model
-model_path = os.path.join(MODEL_FOLDER, "Main_Model.pth")
+# Load the pretrained GAN models
+model_path1 = os.path.join(MODEL_FOLDER, "Main_Model.pth")
+# model_path2 = os.path.join(MODEL_FOLDER, "Second_Model.pth")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# Load both models
+net_G = torch.load(model_path1, map_location=device)
+net_G.eval()  # Set first model to evaluation mode
+
+# net_G2 = torch.load(model_path2, map_location=device)
+# net_G2.eval()  # Set second model to evaluation mode
 
 # Define transforms (if needed elsewhere)
 transform = transforms.Compose([
@@ -343,9 +355,6 @@ transform = transforms.Compose([
     transforms.ToTensor()
 ])
 
-# Load the GAN model (assuming your model has an attribute net_G)
-net_G = torch.load(model_path, map_location=device)
-net_G.eval()  # Set model to evaluation mode
 
 # Preprocessing function
 
