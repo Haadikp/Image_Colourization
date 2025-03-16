@@ -60,7 +60,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M22 12h-4"></path><path d="M6 12H2"></path><path d="M12 6V2"></path><path d="M12 22v-4"></path></svg>
                     </div>
                     <h3>Color to Grayscale</h3>
-                    <p class="feature-description">Convert you vibrant photos into stunning black & white images with customizable contrast and tone mapping.</p>
+                    <p class="feature-description">Convert you vibrant photos into stunning black & white images .</p>
                     <img src="uploads/clr-to-gray.webp" alt="Color to Grayscale Example" class="example-image" />
                     <a href="#upload" class="btn btn-secondary">Try Converting</a>
 
@@ -71,7 +71,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                     </div>
                     <h3>Colorize Black & White</h3>
-                    <p class="feature-description">Breathe new life into vintage photos with advanced AI-powered colorization technology.</p>
+                    <p class="feature-description">Breathe new life into vintage photos with advanced colorization technology.</p>
                     <img src="uploads/gray-to-clr.png" alt="Black & White to Color Example" class="example-image" />
                     <a href="#upload" class="btn btn-secondary">Try Colorizing</a>
                 </div>
@@ -133,6 +133,19 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal for model selection -->
+    <div id="modelModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h3>Select Colorization Model</h3>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-secondary active" data-model="1">Model 1</button>
+                <button type="button" class="btn btn-secondary" data-model="2">Model 2</button>
+            </div>
+            <button id="processButton" class="btn btn-primary">Process</button>
+        </div>
+    </div>
 
     <footer>
         <div class="container footer-content">
@@ -238,43 +251,74 @@ sessionStorage.removeItem('currentFile');
         }
     });
 
-    // Conversion handlers
-    document.querySelectorAll('.action-buttons button').forEach(button => {
-        button.addEventListener('click', async () => {
-        const fileInput = document.querySelector('#fileInput'); // Adjust the selector as per your input field
-        if (fileInput) {
-            fileInput.value = ''; // Clear the file input field
+    // Define modal-related variables
+        let selectedModel = '1'; // Default to Model 1
+        const modelModal = document.getElementById('modelModal');
+        const closeModal = document.querySelector('.close');
+        const processButton = document.getElementById('processButton');
 
-        }
+        // Handle action buttons
+        document.querySelectorAll('.action-buttons button').forEach(button => {
+            button.addEventListener('click', async () => {
+                const filename = sessionStorage.getItem('currentFile');
+                if (!filename) {
+                    showError('Please upload an image first!');
+                    return;
+                }
 
+                if (button.classList.contains('btn-primary')) {
+                    // Grayscale conversion
+                    try {
+                        const url = `/process/${filename}?type=grayscale`;
+                        const response = await fetch(url);
+                        const result = await response.json();
+                        if (result.error) throw new Error(result.error);
+                        displayResult(result.result_url, result.download_url);
+                    } catch (error) {
+                        showError(error.message);
+                    }
+                } else if (button.classList.contains('btn-secondary')) {
+                    // Show model selection modal for colorization
+                    modelModal.style.display = 'block';
+                }
+            });
+        });
 
-            // Clear previous results
-        clearResults();
+        // Handle model selection in modal
+        document.querySelectorAll('#modelModal .btn-group .btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#modelModal .btn-group .btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedModel = btn.getAttribute('data-model');
+            });
+        });
 
-        const filename = sessionStorage.getItem('currentFile');
-        if (!filename) {
-            showError('Please upload an image first!');
-            return;
-        }
-
-
+        // Handle process button in modal
+        processButton.addEventListener('click', async () => {
+            modelModal.style.display = 'none';
+            const filename = sessionStorage.getItem('currentFile');
             try {
-                const conversionType = button.classList.contains('btn-primary')
-                    ? 'grayscale'
-                    : 'colorize';
-
-                const response = await fetch(`/process/${filename}?type=${conversionType}`);
+                const url = `/process/${filename}?type=colorize&model=${selectedModel}`;
+                const response = await fetch(url);
                 const result = await response.json();
-
                 if (result.error) throw new Error(result.error);
-
                 displayResult(result.result_url, result.download_url);
-
             } catch (error) {
                 showError(error.message);
             }
         });
-    });
+
+        // Close modal when close button is clicked
+        closeModal.addEventListener('click', () => {
+            modelModal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === modelModal) {
+                modelModal.style.display = 'none';
+            }
+        });
 
     function clearResults() {
         const existingResult = document.querySelector('.result-container');
@@ -285,7 +329,7 @@ sessionStorage.removeItem('currentFile');
     }
 
     function displayResult(resultUrl, downloadUrl) {
-    // Insert HTML with a button instead of a link
+    clearResults(); // Explicitly clear previous results
     const resultHTML = `
         <div class="result-container">
             <h3>Conversion Result</h3>
@@ -371,7 +415,7 @@ function showSuccess(message) {
     const newAlert = alertContainer.lastElementChild;
     setTimeout(() => {
         if (newAlert.parentNode) newAlert.remove();
-    }, 5000);
+    }, 2500);
 }
 
 });

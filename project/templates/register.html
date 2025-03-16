@@ -1,96 +1,4 @@
 
-<!--&lt;!&ndash; register.html &ndash;&gt;-->
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>Register | ImageTone</title>-->
-<!--        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">-->
-
-<!--</head>-->
-<!--<body class="auth-page">-->
-<!--    <div class="auth-container">-->
-<!--        <div class="auth-card">-->
-<!--            <div class="auth-header">-->
-<!--                <div class="logo">-->
-<!--                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
-<!--                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>-->
-<!--                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>-->
-<!--                        <line x1="12" y1="22.08" x2="12" y2="12"></line>-->
-<!--                    </svg>-->
-<!--                    <span>ImageTone</span>-->
-<!--                </div>-->
-<!--                <h1>Create Account</h1>-->
-<!--                <p class="auth-subtitle">Get started with your free account</p>-->
-<!--            </div>-->
-
-<!--            <div class="flash-messages">-->
-<!--                &lt;!&ndash; Flash messages will be inserted here dynamically &ndash;&gt;-->
-<!--            </div>-->
-
-<!--            <form class="auth-form">-->
-<!--                <div class="form-group">-->
-<!--                    <label for="name">Full Name</label>-->
-<!--                    <div class="input-group">-->
-<!--                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
-<!--                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>-->
-<!--                            <circle cx="12" cy="7" r="4"></circle>-->
-<!--                        </svg>-->
-<!--                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="form-group">-->
-<!--                    <label for="email">Email</label>-->
-<!--                    <div class="input-group">-->
-<!--                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
-<!--                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>-->
-<!--                            <polyline points="22,6 12,13 2,6"></polyline>-->
-<!--                        </svg>-->
-<!--                        <input type="email" id="email" name="email" placeholder="Enter your email" required>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="form-group">-->
-<!--                    <label for="password">Password</label>-->
-<!--                    <div class="input-group">-->
-<!--                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
-<!--                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>-->
-<!--                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>-->
-<!--                        </svg>-->
-<!--                        <input type="password" id="password" name="password" placeholder="Enter your password" required>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="form-group">-->
-<!--                    <label for="confirm-password">Confirm Password</label>-->
-<!--                    <div class="input-group">-->
-<!--                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
-<!--                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>-->
-<!--                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>-->
-<!--                        </svg>-->
-<!--                        <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="form-options">-->
-<!--                    <label class="remember-me">-->
-<!--                        <input type="checkbox" name="terms" required>-->
-<!--                        <span>I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a></span>-->
-<!--                    </label>-->
-<!--                </div>-->
-
-<!--                <button type="submit" class="btn btn-primary">Create Account</button>-->
-<!--            </form>-->
-
-<!--            <div class="auth-footer">-->
-<!--                <p>Already have an account? <a href="/login">Sign in</a></p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</body>-->
-<!--</html>-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -112,7 +20,20 @@
                 <p>Join ImageTone to start transforming your images</p>
             </div>
 
-            <form class="auth-form" action="/register" method="POST">
+            {% with messages = get_flashed_messages(with_categories=True) %}
+              {% if messages %}
+                <div class="alert-container">
+                  {% for category, message in messages %}
+                    <div class="alert {% if category == 'success' %}alert-success{% else %}alert-error{% endif %}">
+                      <span class="alert-message">{{ message }}</span>
+                      <button class="alert-close">&times;</button>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+            <form class="auth-form" action="/registration" method="POST">
                 <div class="form-group">
                     <label for="name">Full Name</label>
                     <div class="input-group">
@@ -160,5 +81,25 @@
             </div>
         </div>
     </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-dismiss alerts after 3 seconds
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 300); // Match CSS transition
+        }, 3000);
+
+        // Close button functionality
+        alert.querySelector('.alert-close').addEventListener('click', () => {
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 300);
+        });
+    });
+});
+</script>
+
 </body>
 </html>
