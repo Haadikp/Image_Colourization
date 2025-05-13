@@ -14,7 +14,9 @@ from datetime import timedelta
 from flask import session
 from flask_mail import Mail, Message
 from werkzeug.utils import secure_filename
-
+from fastai.torch_core import noop
+globals()['noops'] = noop  # Define noops as noop
+import fastai
 # file import MainModel,Unet,UnetBlock  # Adjust the import path to your actual `file.py`
 from file import *  # Import all classes and functions from file.py
 from flask import jsonify
