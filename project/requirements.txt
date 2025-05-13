@@ -27,3 +27,4 @@ python-dateutil~=2.9.0.post0
 networkx~=3.4.2
 pandas~=2.2.2
 fonttools~=4.54.1
+gunicorn
