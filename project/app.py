@@ -29,6 +29,22 @@ UPLOAD_FOLDER = 'uploads'
 MODEL_FOLDER = 'model'
 RESULT_FOLDER = 'static/results'
 
+#this part is added for deployment purpose only
+FILE_ID1 = "1BaTZ-xj7J_ZnhrysUaomg_1T8ABwHaD9"  # <-- Replace with your file ID
+FILE_ID2 = "1xdXp23REUg24Qa4YZnA8IlC-WQ2W85VF"  # <-- Replace with your file ID
+
+def download_model(FILE_ID):
+    if not os.path.exists(MODEL_FOLDER):
+        os.makedirs(os.path.dirname(MODEL_FOLDER), exist_ok=True)
+        print("Downloading model weights from Google Drive...")
+        url = f"https://drive.google.com/uc?id={FILE_ID}"
+        gdown.download(url, MODEL_FOLDER, quiet=False)
+    else:
+        print("Model already exists. Skipping download.")
+
+download_model(FILE_ID1)
+download_model(FILE_ID2)
+
 # Ensure folders exist
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESULT_FOLDER, exist_ok=True)
