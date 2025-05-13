@@ -32,7 +32,7 @@ defusedxml==0.7.1
 deoldify==0.0.1
 docker-pycreds==0.4.0
 executing==2.2.0
-fastai==2.7.18
+fastai
 fastcore==1.7.28
 fastdownload==0.0.7
 fastjsonschema==2.21.1
