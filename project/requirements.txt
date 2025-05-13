@@ -185,3 +185,4 @@ wrapt==1.17.2
 yt-dlp==2025.3.31
 zopfli==0.2.3.post1
 gunicorn
+fastbook
